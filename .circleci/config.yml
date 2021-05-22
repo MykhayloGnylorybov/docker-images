@@ -1,0 +1,48 @@
+#            curl "https://awscli.amazonaws.com/awscli-exe-linux-aarch64.zip" -o "awscliv2.zip"
+
+version: 2.1
+executors:
+  base-image:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: medium
+    working_directory: ~/project
+#   resource_class: arm.medium
+
+jobs:
+  build-and-push-to-ecr:
+    executor: base-image
+    steps:
+      - checkout
+      - run:
+          name: Install AWS CLI v2
+          command: |
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip -qq awscliv2.zip
+            sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+            aws --version
+      - run:
+          name: AWS configure
+          command: |
+            sudo aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+            sudo aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+            sudo aws configure set region eu-central-1
+      - run:
+          name: Docker configure
+          command: |
+            sudo aws ecr get-login-password | docker login --username AWS --password-stdin 933870538447.dkr.ecr.eu-central-1.amazonaws.com/pets
+            sudo aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x0n9a3d4/base-images
+      - run:
+          name: Build alpine-basic
+#          TODO: Build for arm64
+          command: |
+            docker build --build-arg ARCH=amd64 ~/project/alpine-basic/ --tag alpine-basic-amd64
+            docker tag alpine-basic-amd64 public.ecr.aws/x0n9a3d4/alpine-basic:$CIRCLE_BUILD_NUM
+            docker tag alpine-basic-amd64 public.ecr.aws/x0n9a3d4/alpine-basic:latest
+            docker push public.ecr.aws/x0n9a3d4/alpine-basic --all-tags
+
+workflows:
+  version: 2
+  test-job:
+    jobs:
+      - build-and-push-to-ecr
