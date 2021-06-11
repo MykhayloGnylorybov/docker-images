@@ -44,7 +44,7 @@ jobs:
       - run:
           name: Create build multi platform builder
           command: |
-            docker buildx create --name mybuilder --platform $BUILDX_PLATFORMS --driver docker-container --use
+            docker buildx create --name mybuilder --platform $BUILDX_PLATFORMS --driver docker --use
             docker buildx use mybuilder
             docker buildx inspect --bootstrap
       - run:
