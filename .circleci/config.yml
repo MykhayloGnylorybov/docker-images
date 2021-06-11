@@ -82,7 +82,7 @@ jobs:
 
 workflows:
   version: 2
-  test-job:
+  build-and-push-images:
     jobs:
       - hold:
           type: approval
