@@ -73,12 +73,12 @@ jobs:
             ~/project/alpine-jre8/ --push
       - run:
           name: Build alpine-nginx
+#            todo: fixme
           command: |
-            #            todo: fixme
-                     docker build --no-cache \
-                     -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
-                     -t public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
-                     ~/project/alpine-nginx/ --push
+            docker build --no-cache \
+            -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
+            -t public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
+            ~/project/alpine-nginx/ --push
 
 workflows:
   version: 2
