@@ -71,9 +71,21 @@ jobs:
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
             ~/project/alpine-jre8/ --push
+      - run:
+          name: Build alpine-nginx
+          command: |
+            docker buildx build \
+            --platform $BUILDX_PLATFORMS --no-cache \
+            -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
+            -t public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
+            ~/project/alpine-nginx/ --push
 
 workflows:
   version: 2
   test-job:
     jobs:
-      - build-and-push-to-ecr
+      - hold:
+          type: approval
+      - build-and-push-to-ecr:
+          requires:
+            - hold
