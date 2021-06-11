@@ -15,3 +15,7 @@ public.ecr.aws/x0n9a3d4/alpine-jre8:85
 ### openjdk11-jre-headless=11.0.9
 
 public.ecr.aws/x0n9a3d4/alpine-jre11:85
+
+### ngnix 1.20.1, openssl 1.1.1k, certbot
+
+public.ecr.aws/x0n9a3d4/alpine-nginx:97
