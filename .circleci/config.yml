@@ -5,7 +5,6 @@ executors:
       image: ubuntu-2004:202101-01
     resource_class: medium
     working_directory: ~/project
-#   resource_class: arm.medium
 
 jobs:
   build-and-push-to-ecr:
@@ -70,10 +69,17 @@ jobs:
             --platform $BUILDX_PLATFORMS --no-cache \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
-            ~/project/alpine-jre8/ --push
+            ~/project/alpine-jre11/ --push
+      - run:
+          name: Build alpine-jre16
+          command: |
+            docker buildx build \
+            --platform $BUILDX_PLATFORMS --no-cache \
+            -t public.ecr.aws/x0n9a3d4/alpine-jre16:$CIRCLE_BUILD_NUM \
+            -t public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
+            ~/project/alpine-jre16/ --push
       - run:
           name: Build alpine-nginx
-#            todo: fixme
           command: |
             docker build --no-cache \
             -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
