@@ -59,7 +59,7 @@ jobs:
           name: Build alpine-jre8
           command: |
             docker buildx build \
-            --platform $BUILDX_PLATFORMS --no-cache \
+            --platform $BUILDX_PLATFORMS \
             --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre8:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre8:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre8:latest \
@@ -68,7 +68,7 @@ jobs:
           name: Build alpine-jre11
           command: |
             docker buildx build \
-            --platform $BUILDX_PLATFORMS --no-cache \
+            --platform $BUILDX_PLATFORMS \
             --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
@@ -77,7 +77,7 @@ jobs:
           name: Build alpine-jre16
           command: |
             docker buildx build \
-            --platform $BUILDX_PLATFORMS --no-cache \
+            --platform $BUILDX_PLATFORMS \
             --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre16:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
@@ -85,7 +85,7 @@ jobs:
       - run:
           name: Build alpine-nginx
           command: |
-            docker build --no-cache \
+            docker build \
             --cache-from=public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
