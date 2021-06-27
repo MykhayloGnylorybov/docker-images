@@ -20,6 +20,6 @@ public.ecr.aws/x0n9a3d4/alpine-jre11:99
 
 public.ecr.aws/x0n9a3d4/alpine-jre16:99
 
-### ngnix 1.20.1, openssl 1.1.1k, certbot
+### ngnix 1.20.1, openssl 1.1.1k, certbot, aws-cli/1.19.101, Python/3.8.10
 
-public.ecr.aws/x0n9a3d4/alpine-nginx:99
+public.ecr.aws/x0n9a3d4/alpine-nginx:100

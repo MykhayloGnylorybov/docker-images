@@ -33,6 +33,14 @@ jobs:
             sudo aws ecr get-login-password | docker login --username AWS --password-stdin 933870538447.dkr.ecr.eu-central-1.amazonaws.com/pets
             sudo aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x0n9a3d4/base-images
       - run:
+          name: Pull previous images
+          command: |
+            sudo docker pull alpine-basic:latest
+            sudo docker pull alpine-jre8:latest
+            sudo docker pull alpine-jre11:latest
+            sudo docker pull alpine-jre16:latest
+            sudo docker pull alpine-nginx:latest
+      - run:
           name: Install docker buildx plugin
           command: |
             curl -LJO https://github.com/docker/buildx/releases/download/v0.5.1/buildx-v0.5.1.linux-amd64
