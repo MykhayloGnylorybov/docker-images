@@ -16,6 +16,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Remove and reinstall docker
+          command: |
+            sudo apt-get remove docker docker-engine docker.io containerd runc
+            sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
+      - run:
           name: Install AWS CLI v2
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -31,6 +36,7 @@ jobs:
       - run:
           name: Docker configure
           command: |
+            sudo apt-get -y install docker.io
             sudo aws ecr get-login-password | docker login --username AWS --password-stdin 933870538447.dkr.ecr.eu-central-1.amazonaws.com
             sudo aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x0n9a3d4
       - run:
