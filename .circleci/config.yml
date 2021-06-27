@@ -16,11 +16,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Remove and reinstall docker
-          command: |
-            sudo apt-get remove docker docker-engine docker.io containerd runc
-            sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io
-      - run:
           name: Install AWS CLI v2
           command: |
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -36,7 +31,6 @@ jobs:
       - run:
           name: Docker configure
           command: |
-            sudo apt-get -y install docker.io
             sudo aws ecr get-login-password | docker login --username AWS --password-stdin 933870538447.dkr.ecr.eu-central-1.amazonaws.com
             sudo aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/x0n9a3d4
       - run:
@@ -66,7 +60,7 @@ jobs:
           command: |
             docker buildx build \
             --platform $BUILDX_PLATFORMS \
-            --cache-from=public.ecr.aws/x0n9a3d4/alpine-basic:latest \
+            --cache-from public.ecr.aws/x0n9a3d4/alpine-basic:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-basic:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-basic:latest \
             ~/project/alpine-basic/ --push
@@ -75,7 +69,7 @@ jobs:
           command: |
             docker buildx build \
             --platform $BUILDX_PLATFORMS \
-            --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre8:latest \
+            --cache-from public.ecr.aws/x0n9a3d4/alpine-jre8:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre8:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre8:latest \
             ~/project/alpine-jre8/ --push
@@ -84,7 +78,7 @@ jobs:
           command: |
             docker buildx build \
             --platform $BUILDX_PLATFORMS \
-            --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
+            --cache-from public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre11:latest \
             ~/project/alpine-jre11/ --push
@@ -93,7 +87,7 @@ jobs:
           command: |
             docker buildx build \
             --platform $BUILDX_PLATFORMS \
-            --cache-from=public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
+            --cache-from public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-jre16:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-jre16:latest \
             ~/project/alpine-jre16/ --push
@@ -101,7 +95,7 @@ jobs:
           name: Build alpine-nginx
           command: |
             docker build \
-            --cache-from=public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
+            --cache-from public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
             -t public.ecr.aws/x0n9a3d4/alpine-nginx:$CIRCLE_BUILD_NUM \
             -t public.ecr.aws/x0n9a3d4/alpine-nginx:latest \
             ~/project/alpine-nginx/ --push
