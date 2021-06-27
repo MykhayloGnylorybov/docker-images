@@ -12,6 +12,7 @@ jobs:
     environment:
       #linux/amd64,linux/386,linux/arm/v5,linux/arm/v6,linux/arm/v7,linux/arm64,linux/mips64le,linux/ppc64le,linux/riscv64,linux/s390x
       BUILDX_PLATFORMS: linux/amd64,linux/arm64
+      BUILDX_PLATFORMS_PULL: --platform linux/amd64 --platform linux/arm64
     steps:
       - checkout
       - run:
@@ -35,11 +36,11 @@ jobs:
       - run:
           name: Pull previous images
           command: |
-            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-basic:latest
-            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre8:latest
-            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre11:latest
-            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre16:latest
-            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-nginx:latest
+            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-basic:latest $BUILDX_PLATFORMS_PULL
+            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre8:latest $BUILDX_PLATFORMS_PULL
+            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre11:latest $BUILDX_PLATFORMS_PULL
+            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-jre16:latest $BUILDX_PLATFORMS_PULL
+            sudo docker pull public.ecr.aws/x0n9a3d4/alpine-nginx:latest $BUILDX_PLATFORMS_PULL
       - run:
           name: Install docker buildx plugin
           command: |
